@@ -17,41 +17,33 @@ namespace _06.TruckTour
                 pumps.Enqueue(Console.ReadLine().Split(' ').Select(int.Parse).ToArray());
             }
 
-            for (int i = 0; i < n; i++)
+            for (int currentStart = 0; currentStart < n - 1; currentStart++)
             {
-                if (Solution(pumps, n))
+                int fuel = 0;
+                bool isSolution = true;
+
+                for (int pumpsPassed = 0; pumpsPassed < n; pumpsPassed++)
                 {
-                    Console.WriteLine(i);
-                    break;
+                    var currPump = pumps.Dequeue();
+                    pumps.Enqueue(currPump);
+
+                    var pumpFuel = currPump[0];
+                    var nextPumpDistance = currPump[1];
+                    fuel += pumpFuel - nextPumpDistance;
+
+                    if (fuel < 0)
+                    {
+                        currentStart += pumpsPassed;
+                        isSolution = false;
+                        break;
+                    }
                 }
-                int[] startPump = pumps.Dequeue();
-                pumps.Enqueue(startPump);
-            }
-        }
-
-        static bool Solution(Queue<int[]> pumps, int n)
-        {
-            int tankFuel = 0;
-            bool isEnough = true;
-
-            for (int i = 0; i < n; i++)
-            {
-                int[] currentPump = pumps.Dequeue();
-                tankFuel += currentPump[0] - currentPump[1];
-                if (tankFuel < 0)
+                if (isSolution)
                 {
-                    isEnough = false;
+                    Console.WriteLine(currentStart);
+                    //break;
+                    Environment.Exit(0);
                 }
-                pumps.Enqueue(currentPump);
-            }
-
-            if (isEnough)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }
