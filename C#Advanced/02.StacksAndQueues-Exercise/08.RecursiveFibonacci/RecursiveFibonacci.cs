@@ -1,34 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _08.RecursiveFibonacci
 {
     class RecursiveFibonacci
     {
-        static void Main(string[] args)
-        {
-            var n = int.Parse(Console.ReadLine());
-            var fib = FibonacciNumber(n);
-            fib = (FibonacciNumber(n - 1) + FibonacciNumber(n - 2) - 1);
+        private static long[] fibMumers = new long[100];
 
-            Console.WriteLine(fib);
+        public static void Main()
+        {
+            fibMumers = fibMumers.Select(x => x = -1).ToArray();
+
+            var n = int.Parse(Console.ReadLine());
+
+            Console.WriteLine(GetFibonnaciNum(n));
         }
 
-        static long FibonacciNumber(int number)
+        public static long GetFibonnaciNum(int n)
         {
-            int firstNumber = 0;
-            int secondNumber = 1;
-
-            for (int i = 0; i < number; i++)
+            if (n <= 1)
             {
-                int temp = firstNumber;
-                firstNumber = secondNumber;
-                secondNumber = temp + secondNumber;
+                return n;
             }
-            return secondNumber;
+
+            if (fibMumers[n] != -1)
+            {
+                return fibMumers[n];
+            }
+
+            fibMumers[n] = GetFibonnaciNum(n - 1) + GetFibonnaciNum(n - 2);
+            return fibMumers[n];
         }
     }
 }
