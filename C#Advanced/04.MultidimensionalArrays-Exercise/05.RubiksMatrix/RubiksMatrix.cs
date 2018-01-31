@@ -90,7 +90,7 @@ namespace _05.RubiksMatrix
             {
                 var lastElement = matrix[row, matrix.GetLength(1) - 1];
 
-                for (int i = matrix.GetLength(0) - 1; i > 0 ; i--)
+                for (int i = matrix.GetLength(1) - 1; i > 0 ; i--)
                 {
                     matrix[row, i] = matrix[row, i - 1];
                 }
@@ -106,7 +106,7 @@ namespace _05.RubiksMatrix
 
             for (int cols = 0; cols < moves % matrix.GetLength(1); cols++)
             {
-                var firstElement = matrix[row, cols];
+                var firstElement = matrix[row, 0];
 
                 for (int i = 0; i < matrix.GetLength(0) - 1; i++)
                 {
@@ -122,16 +122,16 @@ namespace _05.RubiksMatrix
             var column = int.Parse(command[0]);
             var moves = int.Parse(command[2]);
 
-            for (int rows = 0; rows < moves % matrix.GetLength(0); rows++)
+            for (int rowIndex = 0; rowIndex < moves % matrix.GetLength(0); rowIndex++)
             {
                 var bottomElement = matrix[matrix.GetLength(0) - 1, column];
 
-                for (int i = matrix.GetLength(1) - 1; i > 0 ; i--)
+                for (int colIndex = matrix.GetLength(1) - 1; colIndex > 0 ; colIndex--)
                 {
-                    matrix[i, column] = matrix[i - 1, column];
+                    matrix[colIndex, column] = matrix[colIndex - 1, column];
                 }
 
-                matrix[rows, column] = bottomElement;
+                matrix[0, column] = bottomElement;
             }
         }
 
