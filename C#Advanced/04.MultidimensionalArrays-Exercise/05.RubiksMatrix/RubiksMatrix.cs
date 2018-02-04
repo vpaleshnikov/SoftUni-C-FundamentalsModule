@@ -14,7 +14,7 @@ namespace _05.RubiksMatrix
             var matrix = new int[rows, cols];
 
             matrix = FillMatrix(rows, cols);
-
+            
             for (int i = 0; i < n; i++)
             {
                 var command = Console.ReadLine()

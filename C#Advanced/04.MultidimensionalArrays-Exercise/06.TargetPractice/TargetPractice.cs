@@ -31,6 +31,18 @@ namespace _06.TargetPractice
             PrintMatrix(matrix);
         }
 
+        private static void PrintMatrix(char[,] matrix)
+        {
+            for (int rowIndex = 0; rowIndex < matrix.GetLength(0); rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < matrix.GetLength(1); colIndex++)
+                {
+                    Console.Write($"{matrix[rowIndex, colIndex]}");
+                }
+                Console.WriteLine();
+            }
+        }
+
         private static void DropElements(char[,] matrix, int col)
         {
             while (true)
@@ -68,19 +80,7 @@ namespace _06.TargetPractice
                 }
             }
         }
-
-        private static void PrintMatrix(char[,] matrix)
-        {
-            for (int rowIndex = 0; rowIndex < matrix.GetLength(0); rowIndex++)
-            {
-                for (int colIndex = 0; colIndex < matrix.GetLength(1); colIndex++)
-                {
-                    Console.Write($"{matrix[rowIndex,colIndex]}");
-                }
-                Console.WriteLine();
-            }
-        }
-
+        
         private static void FillMatrix(char[,] matrix, string snake, int numberOfRows, int numberOfColumns)
         {
             var currentIndex = 0;
