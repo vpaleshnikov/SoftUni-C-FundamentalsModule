@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace _01.CubicArtillery
+{
+    class CubicArtillery
+    {
+        static void Main(string[] args)
+        {
+            var maxCapacity = int.Parse(Console.ReadLine());
+
+            var bunkers = new Queue<string>();
+            var weapons = new Queue<int>();
+            var leftCapacity = maxCapacity;
+            
+            string input;
+            while ((input = Console.ReadLine()) != "Bunker Revision")
+            {
+                var tokens = input.Split(' ');
+
+                foreach (var element in tokens)
+                {
+                    int weapon;
+                    var isDigit = int.TryParse(element, out weapon);
+                    if (!isDigit)
+                    {
+                        bunkers.Enqueue(element);
+                    }
+                    else
+                    {
+                        var isSaved = false;
+
+                        while (bunkers.Count > 1)
+                        {
+                            if (leftCapacity >= weapon)
+                            {
+                                weapons.Enqueue(weapon);
+                                leftCapacity -= weapon;
+                                isSaved = true;
+                                break;
+                            }
+
+                            var removedBunker = bunkers.Dequeue();
+
+                            if (weapons.Count == 0)
+                            {
+                                Console.WriteLine($"{removedBunker} -> Empty");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{removedBunker} -> {string.Join(", ",weapons)}");
+                            }
+                            weapons.Clear();
+
+                            leftCapacity = maxCapacity;
+                        }
+                        if (!isSaved)
+                        {
+                            if (weapon <= maxCapacity)
+                            {
+                                while (leftCapacity < weapon)
+                                    leftCapacity += weapons.Dequeue();
+
+                                weapons.Enqueue(weapon);
+                                leftCapacity -= weapon;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
