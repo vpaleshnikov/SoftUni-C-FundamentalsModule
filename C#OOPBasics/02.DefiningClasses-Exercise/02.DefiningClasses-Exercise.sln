@@ -5,23 +5,25 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01.DefineClassPerson", "01.DefineClassPerson\01.DefineClassPerson.csproj", "{D4D1674B-4EFF-4474-8648-009359A1F3A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.CreatingConstructors", "02.CreatingConstructors\02.CreatingConstructors.csproj", "{9C687532-8E3E-4658-8FF1-F3E566717869}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02.CreatingConstructors", "02.CreatingConstructors\02.CreatingConstructors.csproj", "{9C687532-8E3E-4658-8FF1-F3E566717869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.OldestFamilyMember", "03.OldestFamilyMember\03.OldestFamilyMember.csproj", "{6659D94B-CB84-4B63-8DAB-053E121D0AF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03.OldestFamilyMember", "03.OldestFamilyMember\03.OldestFamilyMember.csproj", "{6659D94B-CB84-4B63-8DAB-053E121D0AF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.OpinionPoll", "04.OpinionPoll\04.OpinionPoll.csproj", "{E12F6C5D-C815-4521-AD58-BFECD1235BE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04.OpinionPoll", "04.OpinionPoll\04.OpinionPoll.csproj", "{E12F6C5D-C815-4521-AD58-BFECD1235BE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.DateModifier", "05.DateModifier\05.DateModifier.csproj", "{C25BE591-2649-42A3-A37D-4195204F61EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05.DateModifier", "05.DateModifier\05.DateModifier.csproj", "{C25BE591-2649-42A3-A37D-4195204F61EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.CompanyRoster", "06.CompanyRoster\06.CompanyRoster.csproj", "{F5AFD437-CF83-4C09-A99E-7BBA2474DF35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "06.CompanyRoster", "06.CompanyRoster\06.CompanyRoster.csproj", "{F5AFD437-CF83-4C09-A99E-7BBA2474DF35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07.SpeedRacing", "07.SpeedRacing\07.SpeedRacing.csproj", "{609250FB-9481-4A51-BBF5-90C2B36E3124}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "07.SpeedRacing", "07.SpeedRacing\07.SpeedRacing.csproj", "{609250FB-9481-4A51-BBF5-90C2B36E3124}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08.RawData", "08.RawData\08.RawData.csproj", "{B7452671-DA36-4DE3-9A78-A54609185999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "08.RawData", "08.RawData\08.RawData.csproj", "{B7452671-DA36-4DE3-9A78-A54609185999}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09.RectangleIntersection", "09.RectangleIntersection\09.RectangleIntersection.csproj", "{C199BECF-40F7-45F1-9B57-C830F8BE92A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "09.RectangleIntersection", "09.RectangleIntersection\09.RectangleIntersection.csproj", "{C199BECF-40F7-45F1-9B57-C830F8BE92A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10.CarSalesman", "10.CarSalesman\10.CarSalesman.csproj", "{ABCA77B0-A36C-4588-BE49-58FBC55E8929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "10.CarSalesman", "10.CarSalesman\10.CarSalesman.csproj", "{ABCA77B0-A36C-4588-BE49-58FBC55E8929}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11.PokemonTrainer", "11.PokemonTrainer\11.PokemonTrainer.csproj", "{9F4285FD-DBA0-4CDF-B1D6-EF5D6CE46A93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{ABCA77B0-A36C-4588-BE49-58FBC55E8929}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABCA77B0-A36C-4588-BE49-58FBC55E8929}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABCA77B0-A36C-4588-BE49-58FBC55E8929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F4285FD-DBA0-4CDF-B1D6-EF5D6CE46A93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F4285FD-DBA0-4CDF-B1D6-EF5D6CE46A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F4285FD-DBA0-4CDF-B1D6-EF5D6CE46A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F4285FD-DBA0-4CDF-B1D6-EF5D6CE46A93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

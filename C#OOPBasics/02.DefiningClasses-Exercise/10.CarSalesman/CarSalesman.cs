@@ -21,13 +21,14 @@ public class CarSalesman
 
             if (engineInfo.Length == 3)
             {
-                if (engineInfo[2].Length == 1)
+                int number;
+                if (int.TryParse(engineInfo[2], out number))
                 {
-                    engine.Efficiency = engineInfo[2];
+                    engine.Displacement = engineInfo[2];
                 }
                 else
                 {
-                    engine.Displacement = engineInfo[2];
+                    engine.Efficiency = engineInfo[2];
                 }
             }
             else if (engineInfo.Length > 3)
