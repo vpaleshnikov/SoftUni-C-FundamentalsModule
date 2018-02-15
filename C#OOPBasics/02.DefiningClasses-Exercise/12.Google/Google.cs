@@ -95,11 +95,11 @@ public class Google
         }
         else if (tokens[1] == "parents")
         {
-            person.Parents.Add(new Parent(tokens[2], DateTime.ParseExact(tokens[3], "dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            person.Parents.Add(new Parent(tokens[2], tokens[3]));
         }
         else if (tokens[1] == "children")
         {
-            person.Children.Add(new Child(tokens[2], DateTime.ParseExact(tokens[3], "dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            person.Children.Add(new Child(tokens[2], tokens[3]));
         }
     }
 }

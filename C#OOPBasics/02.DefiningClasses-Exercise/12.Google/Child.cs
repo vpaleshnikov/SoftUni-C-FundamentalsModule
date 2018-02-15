@@ -1,12 +1,10 @@
-﻿using System;
-
-public class Child
+﻿public class Child
 {
     public string Name { get; set; }
 
-    public DateTime Birthday { get; set; }
+    public string Birthday { get; set; }
 
-    public Child(string name, DateTime birthday)
+    public Child(string name, string birthday)
     {
         this.Name = name;
         this.Birthday = birthday;

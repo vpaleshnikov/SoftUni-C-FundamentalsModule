@@ -4,9 +4,9 @@ public class Parent
 {
     public string Name { get; set; }
 
-    public DateTime Birthday { get; set; }
+    public string Birthday { get; set; }
 
-    public Parent(string name, DateTime birthday)
+    public Parent(string name, string birthday)
     {
         this.Name = name;
         this.Birthday = birthday;
