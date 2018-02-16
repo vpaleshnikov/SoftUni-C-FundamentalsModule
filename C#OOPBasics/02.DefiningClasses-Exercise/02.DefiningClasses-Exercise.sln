@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "12.Google", "12.Google\12.G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14.CatLady", "14.CatLady\14.CatLady.csproj", "{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15.DrawingTool", "15.DrawingTool\15.DrawingTool.csproj", "{35845746-7B8A-43E9-B576-0CEC9FFEE6C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35845746-7B8A-43E9-B576-0CEC9FFEE6C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35845746-7B8A-43E9-B576-0CEC9FFEE6C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35845746-7B8A-43E9-B576-0CEC9FFEE6C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35845746-7B8A-43E9-B576-0CEC9FFEE6C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
