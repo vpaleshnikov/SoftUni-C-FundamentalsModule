@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "10.CarSalesman", "10.CarSal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "11.PokemonTrainer", "11.PokemonTrainer\11.PokemonTrainer.csproj", "{9F4285FD-DBA0-4CDF-B1D6-EF5D6CE46A93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12.Google", "12.Google\12.Google.csproj", "{4779582E-5E9A-4581-9CB8-95A30C88E0A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "12.Google", "12.Google\12.Google.csproj", "{4779582E-5E9A-4581-9CB8-95A30C88E0A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14.CatLady", "14.CatLady\14.CatLady.csproj", "{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{4779582E-5E9A-4581-9CB8-95A30C88E0A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4779582E-5E9A-4581-9CB8-95A30C88E0A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4779582E-5E9A-4581-9CB8-95A30C88E0A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF568E67-3D5C-47F2-A3BB-F41A9F267F04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
