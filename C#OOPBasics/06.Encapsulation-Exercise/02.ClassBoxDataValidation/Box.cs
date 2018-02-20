@@ -2,20 +2,20 @@
 
 public class Box
 {
-    private double lenght;
+    private double length;
     private double width;
     private double height;
 
-    public double Lenght
+    public double Length
     {
-        get { return this.lenght;}
+        get { return this.length;}
         private set
         {
             if (value <= 0)
             {
-                throw new ArgumentException("Lenght cannot be zero or negative.");
+                throw new ArgumentException("Length cannot be zero or negative.");
             }
-            this.lenght = value;
+            this.length = value;
         }
     }
 
@@ -45,25 +45,25 @@ public class Box
         }
     }
 
-    public Box(double lenght, double width, double height)
+    public Box(double length, double width, double height)
     {
-        this.Lenght = lenght;
+        this.Length = length;
         this.Width = width;
         this.Height = height;
     }
 
     public double GetSurfaceArea()
     {
-        return (2 * this.lenght * this.width) + (2 * this.lenght * this.height) + (2 * this.width * this.height);
+        return (2 * this.Length * this.Width) + (2 * this.Length * this.Height) + (2 * this.Width * this.Height);
     }
 
     public double LateralSurfaceArea()
     {
-        return (2 * this.lenght * this.height) + (2 * this.width * this.height);
+        return (2 * this.Length * this.Height) + (2 * this.Width * this.Height);
     }
 
     public double GetVolume()
     {
-        return this.lenght * this.width * this.height;
+        return this.Length * this.Width * this.Height;
     }
 }
