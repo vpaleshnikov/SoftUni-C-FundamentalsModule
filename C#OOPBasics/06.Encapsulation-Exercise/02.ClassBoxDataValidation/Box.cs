@@ -12,7 +12,7 @@ public class Box
         {
             if (value < 1)
             {
-                throw new ArgumentException($"{nameof(Lenght)} cannot be zero or negative.");
+                throw new ArgumentException("Lenght cannot be zero or negative.");
             }
             this.lenght = value;
         }
@@ -24,7 +24,7 @@ public class Box
         {
             if (value < 1)
             {
-                throw new ArgumentException($"{nameof(Width)} cannot be zero or negative.");
+                throw new ArgumentException("Width cannot be zero or negative.");
             }
             this.width = value;
         }
@@ -36,7 +36,7 @@ public class Box
         {
             if (value < 1)
             {
-                throw new ArgumentException($"{nameof(Height)} cannot be zero or negative.");
+                throw new ArgumentException("Height cannot be zero or negative.");
             }
 
             this.height = value;
