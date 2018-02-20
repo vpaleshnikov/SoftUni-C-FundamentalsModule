@@ -11,7 +11,7 @@ public class Box
         get { return this.lenght;}
         private set
         {
-            if (value < 1)
+            if (value <= 0)
             {
                 throw new ArgumentException("Lenght cannot be zero or negative.");
             }
@@ -24,7 +24,7 @@ public class Box
         get { return this.width; }
         private set
         {
-            if (value < 1)
+            if (value <= 0)
             {
                 throw new ArgumentException("Width cannot be zero or negative.");
             }
@@ -37,7 +37,7 @@ public class Box
         get { return this.height; }
         private set
         {
-            if (value < 1)
+            if (value <= 0)
             {
                 throw new ArgumentException("Height cannot be zero or negative.");
             }
