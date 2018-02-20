@@ -6,9 +6,10 @@ public class Box
     private double width;
     private double height;
 
-    private double Lenght
+    public double Lenght
     {
-        set
+        get { return this.lenght;}
+        private set
         {
             if (value < 1)
             {
@@ -18,9 +19,10 @@ public class Box
         }
     }
 
-    private double Width
+    public double Width
     {
-        set
+        get { return this.width; }
+        private set
         {
             if (value < 1)
             {
@@ -30,15 +32,15 @@ public class Box
         }
     }
 
-    private double Height
+    public double Height
     {
-        set
+        get { return this.height; }
+        private set
         {
             if (value < 1)
             {
                 throw new ArgumentException("Height cannot be zero or negative.");
             }
-
             this.height = value;
         }
     }
