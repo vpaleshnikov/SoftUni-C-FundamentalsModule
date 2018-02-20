@@ -3,55 +3,45 @@ using System.Collections.Generic;
 
 public class StudentSystem
 {
-    static void Main()
+    private Dictionary<string, Student> repo;
+
+    public StudentSystem()
     {
-        var students = new List<Student>();
+        this.repo = new Dictionary<string, Student>();
+    }
 
-        string input;
-        while ((input = Console.ReadLine()) != "Exit")
+    public Dictionary<string, Student> Repo
+    {
+        get { return repo; }
+        private set { repo = value; }
+    }
+
+    public void ParseCommand(string command, Action<string> printFuction)
+    {
+        var input = command.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+
+        if (input[0] == "Create")
         {
-            var tokens = input
-                .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (tokens[0] == "Create")
+            Create(input[1], input[2], input[3]);
+        }
+        else if (input[0] == "Show")
+        {
+            var name = input[1];
+            if (repo.ContainsKey(name))
             {
-                students.Add(CreateNewStudent(tokens));
-            }
-            else if (tokens[0] == "Show")
-            {
-                ShowStudent(students, tokens);
+                printFuction(repo[name].ToString());
             }
         }
     }
-
-    public static void ShowStudent(List<Student> students, string[] tokens)
+    
+    private void Create(string name, string ageString, string gradeString)
     {
-        foreach (var student in students)
+        var age = int.Parse(ageString);
+        var grade = double.Parse(gradeString);
+        if (!repo.ContainsKey(name))
         {
-            if (tokens[1] == student.Name)
-            {
-                if (student.Grade >= 5.00)
-                {
-                    Console.WriteLine($"{student.Name} is {student.Age} years old. Excellent student.");
-                }
-                else if (student.Grade < 5.00 && student.Grade >= 3.50)
-                {
-                    Console.WriteLine($"{student.Name} is {student.Age} years old. Average student.");
-                }
-                else
-                {
-                    Console.WriteLine($"{student.Name} is {student.Age} years old. Very nice person.");
-                }
-            }
+            var student = new Student(name, age, grade);
+            repo[name] = student;
         }
-    }
-
-    public static Student CreateNewStudent(string[] tokens)
-    {
-        var name = tokens[1];
-        var age = int.Parse(tokens[2]);
-        var grade = double.Parse(tokens[3]);
-
-        return new Student(name, age, grade);
     }
 }

@@ -1,72 +1,36 @@
-﻿public class PriceCalculator
+﻿using System;
+
+public class PriceCalculator
 {
-    public decimal PricePerDay { get; set; }
+    private decimal pricePerNight;
+    private int nights;
+    private SeasonsEnum season;
+    private Discounts discount;
 
-    public int NumberOfDays { get; set; }
-
-    public string Season { get; set; }
-
-    private string discountType;
-
-    public string DiscountType
+    public PriceCalculator(string command)
     {
-        get { return this.discountType; }
-        set { this.discountType = value; }
+        var input = command
+            .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+        pricePerNight = decimal.Parse(input[0]);
+        nights = int.Parse(input[1]);
+        season = Enum.Parse<SeasonsEnum>(input[2]);
+        discount = Discounts.None;
+
+        if (input.Length > 3)
+        {
+            discount = Enum.Parse<Discounts>(input[3]);
+        }
     }
 
-
-
-    public PriceCalculator(decimal pricePerDay, int numberOfDays, string season)
+    public string CalculatePrice()
     {
-        this.PricePerDay = pricePerDay;
-        this.NumberOfDays = numberOfDays;
-        this.Season = season;
-        this.DiscountType = "";
-    }
+        var tempTotal = pricePerNight * nights * (int)season;
 
-    public decimal Calculator(PriceCalculator calculator)
-    {
-        decimal discountedPrice = 0m;
+        var discountPersentage = ((decimal)100 - (int)discount) / 100;
 
+        var totalPrice = tempTotal * discountPersentage;
 
-        decimal totalPrice = 0m;
-
-        if (this.Season == "Autumn")
-        {
-            totalPrice = this.PricePerDay * this.NumberOfDays;
-        }
-        else if (this.Season == "Spring")
-        {
-            totalPrice = (this.PricePerDay * 2) * this.NumberOfDays;
-        }
-        else if (this.Season == "Winter")
-        {
-            totalPrice = (this.PricePerDay * 3) * this.NumberOfDays;
-        }
-        else if (this.Season == "Summer")
-        {
-            totalPrice = (this.PricePerDay * 4) * this.NumberOfDays;
-        }
-
-        if (this.DiscountType != "")
-        {
-            if (this.DiscountType == "VIP")
-            {
-                discountedPrice = totalPrice - (totalPrice * 0.2m);
-            }
-            else if (this.DiscountType == "SecondVisit")
-            {
-                discountedPrice = totalPrice - (totalPrice * 0.1m);
-            }
-        }
-
-        if (discountedPrice > 0)
-        {
-            return discountedPrice;
-        }
-        else
-        {
-            return totalPrice;
-        }
+        return totalPrice.ToString("F2");
     }
 }
