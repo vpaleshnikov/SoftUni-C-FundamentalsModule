@@ -13,7 +13,8 @@ public class Animals
             try
             {
                 var animalType = input;
-                var animalInfo = Console.ReadLine().Split();
+                var animalInfo = Console.ReadLine()
+                    .Split(new []{" "},StringSplitOptions.RemoveEmptyEntries);
 
                 GetTypeAndAddAnimal(animals, animalType, animalInfo);
             }
@@ -46,6 +47,10 @@ public class Animals
         else if (animalType.ToLower() == "tomcat")
         {
             animals.Add(new Tomcat(animalInfo[0], int.Parse(animalInfo[1])));
+        }
+        else
+        {
+            throw new ArgumentException("Invalid input!");
         }
     }
 }

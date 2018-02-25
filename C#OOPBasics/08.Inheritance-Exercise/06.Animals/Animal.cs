@@ -22,7 +22,9 @@ public abstract class Animal
     {
         set
         {
-            if (value < 0)
+            if (value < 0 
+                || String.IsNullOrEmpty(value.ToString()) 
+                || String.IsNullOrWhiteSpace(value.ToString()))
             {
                 throw new ArgumentException("Invalid input!");
             }
