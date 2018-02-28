@@ -1,10 +1,10 @@
-﻿public class DystopianSociety
+﻿public class Society
 {
     public string Name { get; set; }
 
     public string Id { get; set; }
 
-    public DystopianSociety(string name, string id)
+    public Society(string name, string id)
     {
         this.Name = name;
         this.Id = id;

@@ -24,11 +24,11 @@ public class BorderControl
 
         input = Console.ReadLine();
 
-        foreach (var dystopianSociety in society)
+        foreach (var societyMember in society)
         {
-            if (dystopianSociety.Id.EndsWith(input))
+            if (societyMember.Id.EndsWith(input))
             {
-                Console.WriteLine($"{dystopianSociety.Id}");
+                Console.WriteLine($"{societyMember.Id}");
             }
         }
     }

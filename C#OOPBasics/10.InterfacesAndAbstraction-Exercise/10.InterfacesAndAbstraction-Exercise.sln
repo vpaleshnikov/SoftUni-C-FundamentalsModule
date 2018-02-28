@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "06.BirthdayCelebrations", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "07.FoodShortage", "07.FoodShortage\07.FoodShortage.csproj", "{396B2357-00B5-414D-A1BE-234DB5CFC3C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08.MilitaryElite", "08.MilitaryElite\08.MilitaryElite.csproj", "{C2521E89-250B-404F-A9E7-59A3EC932234}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{396B2357-00B5-414D-A1BE-234DB5CFC3C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{396B2357-00B5-414D-A1BE-234DB5CFC3C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{396B2357-00B5-414D-A1BE-234DB5CFC3C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2521E89-250B-404F-A9E7-59A3EC932234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2521E89-250B-404F-A9E7-59A3EC932234}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2521E89-250B-404F-A9E7-59A3EC932234}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2521E89-250B-404F-A9E7-59A3EC932234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
