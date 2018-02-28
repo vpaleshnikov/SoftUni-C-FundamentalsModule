@@ -1,4 +1,4 @@
-﻿public class Citizen:DystopianSociety
+﻿public class Citizen:Society
 {
     public int Age { get; set; }
 

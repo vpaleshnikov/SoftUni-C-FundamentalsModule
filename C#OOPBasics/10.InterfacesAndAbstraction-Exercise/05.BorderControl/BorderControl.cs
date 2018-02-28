@@ -5,7 +5,7 @@ public class BorderControl
 {
     public static void Main()
     {
-        var society = new List<DystopianSociety>();
+        var society = new List<Society>();
 
         string input;
         while ((input = Console.ReadLine()) != "End")
