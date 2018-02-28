@@ -88,14 +88,18 @@ public class MilitaryElite
     {
         var leutenantGeneral = new LeutenantGeneral(int.Parse(tokens[1]), tokens[2], tokens[3], decimal.Parse(tokens[4]));
 
-        foreach (var soldier in soldiers)
+        for (int i = 5; i < tokens.Length; i++)
         {
-            if (soldier.GetType().FullName == "Private" && !leutenantGeneral.Privates.Contains((Private)soldier))
+            foreach (var soldier in soldiers)
             {
-                leutenantGeneral.Privates.Add((Private)soldier);
+                if (soldier.GetType().FullName == "Private" 
+                    && !leutenantGeneral.Privates.Contains((Private)soldier)
+                    && int.Parse(tokens[i]) == soldier.Id)
+                {
+                    leutenantGeneral.Privates.Add((Private)soldier);
+                }
             }
         }
-
         soldiers.Add(leutenantGeneral);
     }
 
