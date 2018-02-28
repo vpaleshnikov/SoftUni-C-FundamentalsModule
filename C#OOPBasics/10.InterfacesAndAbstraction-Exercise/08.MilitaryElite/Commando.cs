@@ -12,6 +12,10 @@ public class Commando : SpecialisedSoldier
         this.Missions = new List<Mission>();
     }
 
+    public void CompleteMission()
+    {
+    }
+
     public override string ToString()
     {
         var sb = new StringBuilder();
