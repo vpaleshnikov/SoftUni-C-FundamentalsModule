@@ -40,7 +40,6 @@ public class VehiclesExtension
                 }
                 else if (vehicle == "Bus")
                 {
-                    bus.FuelConsumption += 1.4;
                     bus.Drive(distance);
                 }
             }
@@ -64,7 +63,8 @@ public class VehiclesExtension
             else if (command == "DriveEmpty")
             {
                 var distance = double.Parse(input[2]);
-                bus.Drive(distance);
+                var emptyBus = (Bus) bus;
+                emptyBus.DriveEmpty(distance);
             }
         }
 

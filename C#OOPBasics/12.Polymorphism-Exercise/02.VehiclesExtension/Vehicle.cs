@@ -41,6 +41,7 @@ public abstract class Vehicle
     public virtual void Drive(double distance)
     {
         var liters = distance * this.FuelConsumption;
+
         if (liters <= this.FuelQuantity)
         {
             this.FuelQuantity -= liters;
