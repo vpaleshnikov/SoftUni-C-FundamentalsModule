@@ -35,12 +35,9 @@ public class CarManager
     public string Check(int carId)
     {
         var sb = new StringBuilder();
-
-        //if (this.RegisteredCars.ContainsKey(id))
-        //{
+        
         sb.AppendLine(this.RegisteredCars[carId].ToString());
-        //}
-
+        
         return sb.ToString().Trim();
     }
 
@@ -85,12 +82,10 @@ public class CarManager
                     {
                         participant.OverallPerformance = (participant.HorsePower / participant.Acceleration) + (participant.Suspension + participant.Durability);
                     }
-
                     else if (this.Races[raceId].GetType().Name == "DragRace")
                     {
                         participant.OverallPerformance = (participant.HorsePower / participant.Acceleration);
                     }
-
                     else
                     {
                         participant.OverallPerformance = (participant.Suspension + participant.Durability);
