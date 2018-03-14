@@ -8,56 +8,75 @@ namespace _04.MaximalSum
     {
         static void Main(string[] args)
         {
-            var rowsCols = Console.ReadLine()
-                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
-                .ToArray();
+            var dimensions = Console.ReadLine().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 
-            var rows = rowsCols[0];
-            var cols = rowsCols[1];
+            var rows = int.Parse(dimensions[0]);
+            var cols = int.Parse(dimensions[1]);
 
-            var matrix = new int[rows,cols];
+            var matrix = new int[rows, cols];
 
-            for (int row = 0; row < rows; row++)
-            {
-                var input = Console.ReadLine()
-                    .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(int.Parse)
-                    .ToArray();
+            FillMatrix(matrix);
 
-                for (int col = 0; col < cols; col++)
-                {
-                    matrix[row, col] = input[col];
-                }
-            }
-            
+            FindMaxSum(matrix);
+
+        }
+
+        private static void FindMaxSum(int[,] matrix)
+        {
             var maxSum = int.MinValue;
-            var maxRow = 0;
-            var maxCol = 0;
+            var row = 0;
+            var col = 0;
 
-            var result = new List<int>();
-
-            for (int row = 0; row < matrix.GetLength(0) - 2; row++)
+            for (int rowIndex = 0; rowIndex < matrix.GetLength(0) - 2; rowIndex++)
             {
-                for (int col = 0; col < matrix.GetLength(1) - 2; col++)
+                for (int colIndex = 0; colIndex < matrix.GetLength(1) - 2; colIndex++)
                 {
-                    var sum = 
-                          matrix[row, col]     + matrix[row + 1, col]     + matrix[row + 2, col]
-                        + matrix[row, col + 1] + matrix[row + 1, col + 1] + matrix[row + 2, col + 1]
-                        + matrix[row, col + 2] + matrix[row + 1, col + 2] + matrix[row + 2, col + 2];
-                    
-                    if (sum > maxSum)
+                    var sum = matrix[rowIndex, colIndex]
+                              + matrix[rowIndex, colIndex + 1]
+                              + matrix[rowIndex, colIndex + 2]
+                              + matrix[rowIndex + 1, colIndex]
+                              + matrix[rowIndex + 1, colIndex + 1]
+                              + matrix[rowIndex + 1, colIndex + 2]
+                              + matrix[rowIndex + 2, colIndex]
+                              + matrix[rowIndex + 2, colIndex + 1] 
+                              + matrix[rowIndex + 2, colIndex + 2];
+
+                    if (maxSum < sum)
                     {
                         maxSum = sum;
-                        maxRow = row;
-                        maxCol = col;
+                        row = rowIndex;
+                        col = colIndex;
+
                     }
                 }
             }
+
             Console.WriteLine($"Sum = {maxSum}");
-            Console.WriteLine("{0} {1} {2}",matrix[maxRow, maxCol], matrix[maxRow, maxCol + 1], matrix[maxRow, maxCol + 2]);
-            Console.WriteLine("{0} {1} {2}", matrix[maxRow + 1, maxCol], matrix[maxRow + 1, maxCol + 1], matrix[maxRow + 1, maxCol + 2]);
-            Console.WriteLine("{0} {1} {2}", matrix[maxRow + 2, maxCol], matrix[maxRow + 2, maxCol + 1], matrix[maxRow + 2, maxCol + 2]);
+
+            PrintResultMatrix(matrix, row, col);
         }
-    }
+
+        private static void PrintResultMatrix(int[,] matrix, int row, int col)
+        {
+            Console.WriteLine($"{matrix[row, col]} {matrix[row, col + 1]} {matrix[row, col + 2]}");
+            Console.WriteLine($"{matrix[row + 1, col]} {matrix[row + 1, col + 1]} {matrix[row + 1, col + 2]}");
+            Console.WriteLine($"{matrix[row + 2, col]} {matrix[row + 2, col + 1]} {matrix[row + 2, col + 2]}");
+        }
+
+        private static void FillMatrix(int[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            for (int rowidIndex = 0; rowidIndex < rows; rowidIndex++)
+            {
+                var input = Console.ReadLine().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+
+                for (int colIndex = 0; colIndex < cols; colIndex++)
+                {
+                    matrix[rowidIndex, colIndex] = input[colIndex];
+                }
+            }
+		}
+	}         
 }

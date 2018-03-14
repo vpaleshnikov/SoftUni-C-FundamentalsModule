@@ -7,37 +7,28 @@ namespace _03.SquaresInMatrix
     {
         static void Main(string[] args)
         {
-            var input = Console.ReadLine()
-                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
-                .ToArray();
+            var dimensions = Console.ReadLine().Split();
 
-            var rows = input[0];
-            var cols = input[1];
+            var rows = int.Parse(dimensions[0]);
+            var cols = int.Parse(dimensions[1]);
 
-            var matrix = new char[rows,cols];
+            var matrix = new string[rows, cols];
 
-            for (int row = 0; row < rows; row++)
-            {
-                var charInput = Console.ReadLine()
-                    .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(char.Parse)
-                    .ToArray();
+            FillMatrix(matrix);
 
-                for (int col = 0; col < cols; col++)
-                {
-                    matrix[row, col] = charInput[col];
-                }
-            }
+            Console.WriteLine(EqualCharSquareFinder(matrix));
+        }
 
+        private static int EqualCharSquareFinder(string[,] matrix)
+        {
             var counter = 0;
 
             for (int row = 0; row < matrix.GetLength(0) - 1; row++)
             {
                 for (int col = 0; col < matrix.GetLength(1) - 1; col++)
                 {
-                    if (matrix[row,col] == matrix[row,col + 1] 
-                        && matrix[row,col] == matrix[row + 1, col]
+                    if (matrix[row,col] == matrix[row, col + 1]
+                        && matrix[row,col] == matrix[row+1,col]
                         && matrix[row,col] == matrix[row + 1, col + 1])
                     {
                         counter++;
@@ -45,7 +36,23 @@ namespace _03.SquaresInMatrix
                 }
             }
 
-            Console.WriteLine(counter);
+            return counter;
+        }
+
+        private static void FillMatrix(string[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            for (int rowidIndex = 0; rowidIndex < rows; rowidIndex++)
+            {
+                var input = Console.ReadLine().Split();
+
+                for (int colIndex = 0; colIndex < cols; colIndex++)
+                {
+                    matrix[rowidIndex, colIndex] = input[colIndex];
+                }
+            }
         }
     }
 }
