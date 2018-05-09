@@ -8,70 +8,54 @@ namespace _01.KeyRevolver
     {
         static void Main(string[] args)
         {
-            var priceOfBullets = int.Parse(Console.ReadLine());
-            var sizeOfGunBarrel = int.Parse(Console.ReadLine());
-            var bulletsInput = Console.ReadLine().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
-            var locksInput = Console.ReadLine().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
-            var valueOfIntelligence = int.Parse(Console.ReadLine());
+            var priceOfBullet = int.Parse(Console.ReadLine());
+            var sizeOfBarrel = int.Parse(Console.ReadLine());
+            var bullets = new Queue<long>(Console.ReadLine().Split().Select(long.Parse).Reverse());
+            var locks = new Queue<long>(Console.ReadLine().Split().Select(long.Parse));
+            var budget = int.Parse(Console.ReadLine());
+            var gameEnded = false;
 
-            var bullets = new Stack<int>();
-            var locks = new Queue<int>();
-
-            for (int i = 0; i < bulletsInput.Length; i++)
+            while (bullets.Count > 0 && locks.Count > 0)
             {
-                bullets.Push(bulletsInput[i]);
-            }
-
-            for (int i = 0; i < locksInput.Length; i++)
-            {
-                locks.Enqueue(locksInput[i]);
-            }
-
-            var counter = 0;
-            var bulletsCounter = bullets.Count;
-            var shootedBullets = 0;
-
-            while (locks.Count >= 0 && bullets.Count >= 0)
-            {
-                if (bullets.Peek() <= locks.Peek())
+                for (int i = 0; i < sizeOfBarrel; i++)
                 {
-                    Console.WriteLine("Bang!");
-                    locks.Dequeue();
-                    bullets.Pop();
-                    bulletsCounter--;
-                    shootedBullets++;
+                    if (bullets.Count == 0 || locks.Count == 0)
+                    {
+                        gameEnded = true;
+                        break;
+                    }
+
+                    var currentBullet = bullets.Dequeue();
+                    var currentLock = locks.Peek();
+
+                    if (currentBullet <= currentLock)
+                    {
+                        Console.WriteLine($"Bang!");
+                        budget -= priceOfBullet;
+                        locks.Dequeue();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ping!");
+                        budget -= priceOfBullet;
+                    }
+
                 }
 
-                else if (bullets.Peek() > locks.Peek())
-                {
-                    Console.WriteLine("Ping!");
-                    bullets.Pop();
-                    bulletsCounter--;
-                    shootedBullets++;
-                }
-
-                counter++;
-                if (counter % sizeOfGunBarrel == 0 && bullets.Count > 0)
-                {
-                    Console.WriteLine("Reloading!");
-                }
-
-                if (bullets.Count <= 0 || locks.Count <= 0)
+                if (gameEnded || bullets.Count == 0)
                 {
                     break;
                 }
+                Console.WriteLine("Reloading!");
             }
 
-            var bulletsCost = shootedBullets * priceOfBullets;
-            var earned = valueOfIntelligence - bulletsCost;
-
-            if (bullets.Count >= 0 && locks.Count == 0)
-            {
-                Console.WriteLine($"{bullets.Count} bullets left. Earned ${earned}");
-            }
-            else if (locks.Count > 0)
+            if (locks.Count > 0)
             {
                 Console.WriteLine($"Couldn't get through. Locks left: {locks.Count}");
+            }
+            else
+            {
+                Console.WriteLine($"{bullets.Count} bullets left. Earned ${budget}");
             }
         }
     }

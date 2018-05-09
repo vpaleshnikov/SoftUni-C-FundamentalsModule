@@ -1,43 +1,53 @@
 ﻿using System;
+using System.Text;
 
-public abstract class Harvester
+public abstract class Harvester : Miner
 {
-    private string id;
+    private const string ERROR_MESSAGE = "Harvester is not registered, because of it's {0}";
+    private const int energyRequiermentMaxValue = 20_000;
+
     private double oreOutput;
-    private double energyRequirement;
+    private double energyRequierment;
 
-    public Harvester(double oreOutput, double energyRequirement)
+    protected Harvester(string id, double oreOutput, double energyRequierment)
+        : base(id)
     {
-        this.Id = id;
         this.OreOutput = oreOutput;
-        this.EnergyRequirement = energyRequirement;
+        this.EnergyRequirement = energyRequierment;
     }
-
-    public string Id { get; private set; }
 
     public double OreOutput
     {
-        get { return this.oreOutput; }
+        get => this.oreOutput;
         protected set
         {
             if (value < 0)
             {
-                throw new ArgumentException($"Harvester is not registered, because of it's OreOutput");
+                throw new ArgumentException(string.Format(ERROR_MESSAGE, nameof(OreOutput)));
             }
             this.oreOutput = value;
         }
     }
-
     public double EnergyRequirement
     {
-        get { return this.energyRequirement; }
+        get => this.energyRequierment;
         protected set
         {
-            if (value < 0 || value > 20000)
+            if (value < 0 || value > energyRequiermentMaxValue)
             {
-                throw new ArgumentException("Harvester is not registered, because of it's EnergyRequirement");
+                throw new ArgumentException(string.Format(ERROR_MESSAGE, nameof(EnergyRequirement)));
             }
-            this.energyRequirement = value;
+            this.energyRequierment = value;
         }
+    }
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Harvester - {this.Id}");
+        sb.AppendLine($"Ore Output: {this.oreOutput}");
+        sb.AppendLine($"Energy Requirement: {this.energyRequierment}");
+        return sb.ToString().Trim();
+
     }
 }

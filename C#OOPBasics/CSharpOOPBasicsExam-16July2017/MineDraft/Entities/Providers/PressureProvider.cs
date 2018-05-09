@@ -1,8 +1,15 @@
 ﻿public class PressureProvider : Provider
 {
-    public PressureProvider(double energyOutput) 
-        : base(energyOutput)
+    private double energyOutputMultiplier = 1.5;
+
+    public PressureProvider(string id, double energyOutput)
+        : base(id, energyOutput)
     {
-        this.EnergyOutput = energyOutput + (energyOutput * 0.5);
+        this.EnergyOutput = this.EnergyOutput * energyOutputMultiplier;
+    }
+
+    public override string ToString()
+    {
+        return $"Pressure {base.ToString().Trim()}";
     }
 }

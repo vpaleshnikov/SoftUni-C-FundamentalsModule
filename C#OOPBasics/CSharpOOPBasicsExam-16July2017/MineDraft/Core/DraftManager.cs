@@ -5,194 +5,122 @@ using System;
 
 public class DraftManager
 {
+    private ModeType mode;
+    private double totalStoredEnergy;
+    private double totalMinedOre;
+    private Dictionary<string, Harvester> harvesters;
+    private Dictionary<string, Provider> providers;
+
     public DraftManager()
     {
-        this.Harversters = new Dictionary<string, Harvester>();
-        this.Providers = new Dictionary<string, Provider>();
-        this.StoredEnergy = 0;
-        this.OreSum = 0;
-        this.ModeType = "Full";
+        harvesters = new Dictionary<string, Harvester>();
+        providers = new Dictionary<string, Provider>();
+        this.totalMinedOre = 0;
+        this.totalStoredEnergy = 0;
+        this.mode = ModeType.Full;
     }
-
-    public double StoredEnergy { get; set; }
-
-    public double OreSum { get; set; }
-
-    public string ModeType { get; set; }
-
-    public Dictionary<string, Harvester> Harversters { get; set; }
-
-    public Dictionary<string, Provider> Providers { get; set; }
 
     public string RegisterHarvester(List<string> arguments)
     {
-        var result = string.Empty;
+        var typeOfHarvester = arguments[0];
+        var id = arguments[1];
+
         try
         {
-            var type = arguments[0];
-            var id = arguments[1];
-
-            if (!this.Harversters.ContainsKey(id))
-            {
-                if (type == "Hammer")
-                {
-                    this.Harversters.Add(id, new HammerHarvester(double.Parse(arguments[2]), double.Parse(arguments[3])));
-                }
-                else
-                {
-                    this.Harversters.Add(id, new SonicHarvester(double.Parse(arguments[2]), double.Parse(arguments[3]), int.Parse(arguments[4])));
-                }
-            }
-
-            result = $"Successfully registered {type} Harvester - {id}";
+            var newHarvester = HarvesterFactory.CreateHarvester(arguments);
+            harvesters.Add(id, newHarvester);
         }
-        catch (ArgumentException ae)
+        catch (Exception ex)
         {
-            result = ae.Message;
+            return (ex.Message);
         }
-        return result;
+
+        return $"Successfully registered {typeOfHarvester} Harvester - {id}";
     }
 
     public string RegisterProvider(List<string> arguments)
     {
-        var result = string.Empty;
+        var typeOfProvider = arguments[0];
+        var id = arguments[1];
+
         try
         {
-
-            var type = arguments[0];
-            var id = arguments[1];
-
-            if (!this.Providers.ContainsKey(id))
-            {
-                if (type == "Solar")
-                {
-                    this.Providers.Add(id, new SolarProvider(double.Parse(arguments[2])));
-                }
-                else
-                {
-                    this.Providers.Add(id, new PressureProvider(double.Parse(arguments[2])));
-                }
-            }
-
-            result = $"Successfully registered {type} Provider - {id}";
+            var newProvider = ProviderFactory.CreateProvider(arguments);
+            providers.Add(id, newProvider);
         }
-
-        catch (ArgumentException ae)
+        catch (Exception ex)
         {
-            result = ae.Message;
+            return (ex.Message);
         }
-        return result;
+
+        return $"Successfully registered {typeOfProvider} Provider - {id}";
     }
 
     public string Day()
     {
-        var energyProvided = this.Providers.Select(p => p.Value.EnergyOutput).Sum();
-        this.StoredEnergy += energyProvided;
-        var energyRequired = this.Harversters.Select(h => h.Value.EnergyRequirement).Sum();
-        var summedOreOutput = 0.00;
-        var totalWorkDone = this.Harversters.Select(h => h.Value.OreOutput).Sum();
+        double orePerDay = 0;
+        double harvestersNeededEnergyPerDay = 0;
+        double energyPerDay = providers.Values.Sum(p => p.EnergyOutput);
 
+        totalStoredEnergy += energyPerDay;
 
-        if (this.ModeType == "Full")
+        harvestersNeededEnergyPerDay += harvesters.Values.Sum(p => p.EnergyRequirement);
+
+        if (totalStoredEnergy >= harvestersNeededEnergyPerDay)
         {
-            if (this.StoredEnergy >= energyRequired)
+            if (mode == ModeType.Full)
             {
-                this.StoredEnergy -= energyRequired;
-                summedOreOutput = totalWorkDone;
+                orePerDay += harvesters.Values.Sum(p => p.OreOutput);
+                totalStoredEnergy -= harvestersNeededEnergyPerDay;
             }
-        }
-        else if (this.ModeType == "Half")
-        {
-            energyRequired *= 0.6;
-
-            if (this.StoredEnergy >= energyRequired)
+            else if (mode == ModeType.Half)
             {
-                this.StoredEnergy -= energyRequired;
-                summedOreOutput = totalWorkDone * 0.5;
+                orePerDay += harvesters.Values.Sum(p => p.OreOutput * 0.5);
+                totalStoredEnergy -= harvestersNeededEnergyPerDay * 0.6;
             }
-        }
 
-        this.OreSum += summedOreOutput;
+            totalMinedOre += orePerDay;
+        }
 
         var sb = new StringBuilder();
         sb.AppendLine("A day has passed.");
-        sb.AppendLine($"Energy Provided: {energyProvided}");
-        sb.AppendLine($"Plumbus Ore Mined: {summedOreOutput}");
-
+        sb.AppendLine($"Energy Provided: {energyPerDay}");
+        sb.AppendLine($"Plumbus Ore Mined: {orePerDay}");
         return sb.ToString().Trim();
     }
 
     public string Mode(List<string> arguments)
     {
-        var inputType = arguments[0];
+        var modeType = arguments[0];
+        this.mode = (ModeType)Enum.Parse(typeof(ModeType), modeType);
 
-        this.ModeType = inputType;
-
-        return $"Successfully changed working mode to {inputType} Mode";
+        return $"Successfully changed working mode to {this.mode} Mode";
     }
 
     public string Check(List<string> arguments)
     {
-        var id = arguments[0];
-        var sb = new StringBuilder();
+        var searchedId = arguments[0];
 
-        if (this.Harversters.ContainsKey(id) || this.Providers.ContainsKey(id))
+        if (harvesters.ContainsKey(searchedId))
         {
-            if (this.Harversters.Any(h => h.Key == id))
-            {
-                foreach (var harverster in this.Harversters)
-                {
-                    if (harverster.Key == id)
-                    {
-                        if (harverster.Value.GetType().FullName == "HammerHarvester")
-                        {
-                            sb.AppendLine($"Hammer Harvester - {id}");
-                            sb.AppendLine($"Ore Output: {harverster.Value.OreOutput}");
-                            sb.AppendLine($"Energy Requirement: {harverster.Value.EnergyRequirement}");
-                        }
-                        else if (harverster.Value.GetType().FullName == "SonicHarvester")
-                        {
-                            sb.AppendLine($"Sonic Harvester - {id}");
-                            sb.AppendLine($"Ore Output: {harverster.Value.OreOutput}");
-                            sb.AppendLine($"Energy Requirement: {harverster.Value.EnergyRequirement}");
-                        }
-                    }
-                }
-            }
-            else if (this.Providers.Any(p => p.Key == id))
-            {
-                foreach (var provider in this.Providers)
-                {
-                    if (provider.Key == id)
-                    {
-                        if (provider.Value.GetType().Name == "SolarProvider")
-                        {
-                            sb.AppendLine($"Solar Provider - {id}");
-                            sb.AppendLine($"Energy Output: {provider.Value.EnergyOutput}");
-                        }
-                        else if (provider.Value.GetType().Name == "PressureProvider")
-                        {
-                            sb.AppendLine($"Pressure Provider - {id}");
-                            sb.AppendLine($"Energy Output: {provider.Value.EnergyOutput}");
-                        }
-                    }
-                }
-            }
+            return harvesters[searchedId].ToString();
+        }
+        else if (providers.ContainsKey(searchedId))
+        {
+            return providers[searchedId].ToString();
         }
         else
         {
-            sb.AppendLine($"No element found with id - {id}");
+            return $"No element found with id - {searchedId}";
         }
-
-        return sb.ToString().Trim();
     }
 
     public string ShutDown()
     {
         var sb = new StringBuilder();
         sb.AppendLine("System Shutdown");
-        sb.AppendLine($"Total Energy Stored: {this.StoredEnergy}");
-        sb.AppendLine($"Total Mined Plumbus Ore: {this.OreSum}");
+        sb.AppendLine($"Total Energy Stored: {this.totalStoredEnergy}");
+        sb.AppendLine($"Total Mined Plumbus Ore: {this.totalMinedOre}");
 
         return sb.ToString().Trim();
     }

@@ -2,19 +2,18 @@
 
 public abstract class Race
 {
-    public Race(int length, string route, int prizePool)
+    protected Race(int length, string route, int prizePool)
     {
         this.Length = length;
         this.Route = route;
         this.PrizePool = prizePool;
-        this.Participants = new List<Car>();
+        this.Participants = new Dictionary<int, Car>();
     }
 
-    public int Length { get; set; }
+    public int Length { get; private set; }
+    public string Route { get; private set; }
+    public int PrizePool { get; private set; }
+    public Dictionary<int, Car> Participants { get; private set; }
 
-    public string Route { get; set; }
-
-    public int PrizePool { get; set; }
-
-    public List<Car> Participants { get; set; }
+    public abstract int GetPerformancePoints();
 }

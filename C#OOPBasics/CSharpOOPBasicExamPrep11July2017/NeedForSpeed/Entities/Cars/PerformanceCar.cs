@@ -1,33 +1,32 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 public class PerformanceCar : Car
 {
-    public PerformanceCar(int id, string brand, string model, int yearOfProduction, int horsePower, int acceleration, int suspension, int durability)
-        : base(id, brand, model, yearOfProduction, horsePower, acceleration, suspension, durability)
+    public PerformanceCar(string brand, string model, int yearOfProduction, int horsepower, int acceleration, int suspension, int durability)
+        : base(brand, model, yearOfProduction, horsepower, acceleration, suspension, durability)
     {
-        this.HorsePower += (this.HorsePower * 50) / 100;
-        this.Suspension -= (this.Suspension * 25) / 100;
         this.AddOns = new List<string>();
+        this.Horsepower += horsepower * 50 / 100;
+        this.Suspension -= suspension * 25 / 100;
     }
 
-    public List<string> AddOns { get; set; }
+    public List<string> AddOns { get; }
 
     public override string ToString()
     {
-        var sb = new StringBuilder();
+        var sb = base.ToString();
 
-        sb.AppendLine(base.ToString());
-        if (this.AddOns.Count > 0)
+        if (this.AddOns.Any())
         {
-            sb.AppendLine($"Add-ons: {string.Join(", ", this.AddOns)}");
+            sb += $"Add-ons: {string.Join(", ", this.AddOns)}";
         }
         else
         {
-            sb.AppendLine($"Add-ons: None");
+            sb += $"Add-ons: None";
         }
 
-        return sb.ToString().Trim();
+        return sb;
     }
-
 }

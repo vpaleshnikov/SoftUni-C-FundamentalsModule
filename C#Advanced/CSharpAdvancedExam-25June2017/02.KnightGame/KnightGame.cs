@@ -7,116 +7,73 @@ namespace _02.KnightGame
         static void Main(string[] args)
         {
             var n = int.Parse(Console.ReadLine());
-        
-            var matrix = new char[n, n];
-        
-            matrix = FillMatrix(matrix, n);
-        
-        
-            Console.WriteLine(KnightsRemover(matrix, n));
-        }
-        
-        private static int KnightsRemover(char[,] matrix, int n)
-        {
-            var knightsRemovedCounter = 0;
-            var maxCounter = 0;
-            var row = 0;
-            var col = 0;
-            var counter = 0;
-        
+            var field = new bool[n, n];
+
+            for (int row = 0; row < n; row++)
+            {
+                var inputLine = Console.ReadLine();
+                for (int col = 0; col < n; col++)
+                {
+                    field[row, col] = inputLine[col] == 'K';
+                }
+            }
+
+            int removedKnights = 0;
             while (true)
             {
-                for (int indexRow = 0; indexRow < n; indexRow++)
+                var possibleAttacks = new int[n, n];
+
+                for (var row = 0; row < n; row++)
                 {
-                    for (int indexCol = 0; indexCol < n; indexCol++)
+                    for (var col = 0; col < n; col++)
                     {
-                        counter = 0;
-        
-                        if (matrix[indexRow, indexCol] == 'K')
+                        if (!field[row, col])
                         {
-                            if (indexRow - 1 >= 0 && indexCol + 2 <= n - 1
-                                && matrix[indexRow - 1, indexCol + 2] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (indexRow - 1 >= 0 && indexCol - 2 >= 0
-                                && matrix[indexRow - 1, indexCol - 2] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (indexRow + 2 <= n - 1 && indexCol - 1 >= 0
-                                && matrix[indexRow + 2, indexCol - 1] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (indexRow + 2 <= n - 1 && indexCol + 1 <= n - 1
-                                && matrix[indexRow + 2, indexCol + 1] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (indexRow - 2 >= 0 && indexCol - 1 >= 0
-                                && matrix[indexRow - 2, indexCol - 1] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (indexRow - 2 >= 0 && indexCol + 1 <= n - 1
-                                && matrix[indexRow - 2, indexCol + 1] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (indexRow + 1 <= n - 1 && indexCol + 2 <= n - 1
-                                && matrix[indexRow + 1, indexCol + 2] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (indexRow + 1 <= n - 1 && indexCol - 2 >= 0
-                                && matrix[indexRow + 1, indexCol - 2] == 'K')
-                            {
-                                counter++;
-                            }
-        
-                            if (maxCounter < counter)
-                            {
-                                maxCounter = counter;
-                                row = indexRow;
-                                col = indexCol;
-                            }
+                            possibleAttacks[row, col] = 0;
+                            continue;
                         }
+                        int attacks = 0;
+                        if (!IsCellEmpty(row + 1, col + 2, field)) attacks++;
+                        if (!IsCellEmpty(row + 2, col + 1, field)) attacks++;
+                        if (!IsCellEmpty(row - 1, col + 2, field)) attacks++;
+                        if (!IsCellEmpty(row - 2, col + 1, field)) attacks++;
+                        if (!IsCellEmpty(row + 2, col - 1, field)) attacks++;
+                        if (!IsCellEmpty(row + 1, col - 2, field)) attacks++;
+                        if (!IsCellEmpty(row - 1, col - 2, field)) attacks++;
+                        if (!IsCellEmpty(row - 2, col - 1, field)) attacks++;
+                        possibleAttacks[row, col] = attacks;
                     }
+
                 }
-                if (maxCounter == 0)
+
+                int removePieceAtRow = -1;
+                int removePieceAtCol = -1;
+                for (var row = 0; row < n; row++)
+                    for (var col = 0; col < n; col++)
+                        if (possibleAttacks[row, col] > (removePieceAtRow >= 0 ? possibleAttacks[removePieceAtRow, removePieceAtCol] : 0))
+                        {
+                            removePieceAtRow = row;
+                            removePieceAtCol = col;
+                        }
+
+                if (removePieceAtRow == -1)
                 {
                     break;
                 }
-                matrix[row, col] = '0';
-                knightsRemovedCounter++;
-                maxCounter = 0;
+
+                removedKnights++;
+                field[removePieceAtRow, removePieceAtCol] = false;
             }
-            return knightsRemovedCounter;
+            Console.WriteLine(removedKnights);
         }
-        
-        private static char[,] FillMatrix(char[,] matrix, int n)
+
+        private static bool IsCellEmpty(int row, int col, bool[,] board)
         {
-            for (int indexRow = 0; indexRow < n; indexRow++)
-            {
-                var input = Console.ReadLine().ToCharArray();
-                var counter = 0;
-        
-                for (int indexCol = 0; indexCol < n; indexCol++)
-                {
-                    matrix[indexRow, indexCol] = input[counter];
-                    counter++;
-                }
-            }
-        
-            return matrix;
+            return row < 0
+                || row >= board.GetLength(0)
+                || col < 0
+                || col >= board.GetLength(1)
+                || !board[row, col];
         }
     }
 }

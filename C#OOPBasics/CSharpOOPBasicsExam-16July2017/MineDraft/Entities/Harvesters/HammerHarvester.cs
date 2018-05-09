@@ -1,9 +1,15 @@
 ﻿public class HammerHarvester : Harvester
 {
-    public HammerHarvester(double oreOutput, double energyRequirement)
-        : base(oreOutput, energyRequirement)
+    private const int oreOutputMultiplier = 2;
+    public HammerHarvester(string id, double oreOutput, double energyRequierment)
+        : base(id, oreOutput, energyRequierment)
     {
-        this.OreOutput = oreOutput * 3;
-        this.EnergyRequirement = energyRequirement * 2;
+        this.OreOutput += this.OreOutput * oreOutputMultiplier;
+        this.EnergyRequirement += this.EnergyRequirement;
+    }
+
+    public override string ToString()
+    {
+        return $"Hammer {base.ToString().Trim()}";
     }
 }

@@ -14,7 +14,7 @@ namespace _01.DangerousFloor
             for (int row = 0; row < board.GetLength(0); row++)
             {
                 board[row] = Console.ReadLine()
-                    .Split(new[] { ',' },StringSplitOptions.RemoveEmptyEntries)
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(char.Parse)
                     .ToArray();
             }
@@ -29,7 +29,7 @@ namespace _01.DangerousFloor
                 int targetCol = int.Parse(command[5].ToString());
 
                 bool isFigureExists = IsFigureExists(figureType, startingRow, startingCol);
-                
+
                 if (!isFigureExists)
                 {
                     Console.WriteLine("There is no such a piece!");
@@ -83,13 +83,10 @@ namespace _01.DangerousFloor
 
         private static bool ValidKingMove(int startingRow, int startingCol, int targetRow, int targetCol)
         {
-            bool rowMove = Math.Abs(startingRow - targetRow) == 1 
-                && Math.Abs(startingCol - targetCol) == 0;
-            bool colMove = Math.Abs(startingCol - targetCol) == 1 
-                && Math.Abs(startingRow - targetRow) == 0;
-            bool diagonalMove = Math.Abs(startingCol - targetCol) == 1 
-                && Math.Abs(startingRow - targetRow) == 1;
-            
+            bool rowMove = Math.Abs(startingRow - targetRow) == 1 && Math.Abs(startingCol - targetCol) == 0;
+            bool colMove = Math.Abs(startingCol - targetCol) == 1 && Math.Abs(startingRow - targetRow) == 0;
+            bool diagonalMove = Math.Abs(startingCol - targetCol) == 1 && Math.Abs(startingRow - targetRow) == 1;
+
             return rowMove || colMove || diagonalMove;
         }
 

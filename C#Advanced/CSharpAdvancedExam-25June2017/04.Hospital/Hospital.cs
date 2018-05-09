@@ -16,7 +16,7 @@ namespace _04.Hospital
             var department = string.Empty;
             var doctor = string.Empty;
             var patient = string.Empty;
-            
+
             var room = 0;
 
             while (input != "Output")

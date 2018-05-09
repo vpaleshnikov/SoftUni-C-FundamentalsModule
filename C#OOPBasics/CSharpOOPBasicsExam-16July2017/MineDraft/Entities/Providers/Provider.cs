@@ -1,33 +1,37 @@
 ﻿using System;
+using System.Text;
 
-public abstract class Provider
+public abstract class Provider : Miner
 {
-    private string id;
+    private const string ERROR_MESSAGE = "Provider is not registered, because of it's {0}";
+    private const int energyOutputMaxValue = 10_000;
 
     private double energyOutput;
 
-    protected Provider(double energyOutput)
+    protected Provider(string id, double energyOutput)
+        : base(id)
     {
-        this.Id = id;
         this.EnergyOutput = energyOutput;
-    }
-
-    public string Id
-    {
-        get { return this.id; }
-        private set { this.id = value; }
     }
 
     public double EnergyOutput
     {
-        get { return this.energyOutput; }
+        get => this.energyOutput;
         protected set
         {
             if (value < 0 || value > 10000)
             {
-                throw new ArgumentException("Provider is not registered, because of it's EnergyOutput");
+                throw new ArgumentException(string.Format(ERROR_MESSAGE, nameof(EnergyOutput)));
             }
             this.energyOutput = value;
         }
+    }
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Provider - {this.Id}");
+        sb.AppendLine($"Energy Output: {this.energyOutput}");
+        return sb.ToString().Trim();
     }
 }

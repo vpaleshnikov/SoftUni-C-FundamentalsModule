@@ -9,7 +9,7 @@ namespace _04.TreasureMap
         {
             var pattern =
                 @"(#|!)[^#!]*?(?<![a-zA-Z0-9])(?<streetName>([a-zA-Z]{4}))(?![a-zA-Z0-9])[^#!]*(?<!\d)(?<streetNumber>(\d{3}))-(?<pass>(\d{4}|\d{6}))(?!\d)[^#!]*?(#|!)";
-            
+
             var n = int.Parse(Console.ReadLine());
 
             for (int i = 0; i < n; i++)

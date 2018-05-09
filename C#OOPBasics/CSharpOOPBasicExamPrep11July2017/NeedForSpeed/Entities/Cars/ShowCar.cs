@@ -2,8 +2,8 @@
 
 public class ShowCar : Car
 {
-    public ShowCar(int id, string brand, string model, int yearOfProduction, int horsePower, int acceleration, int suspension, int durability) 
-        : base(id, brand, model, yearOfProduction, horsePower, acceleration, suspension, durability)
+    public ShowCar(string brand, string model, int yearOfProduction, int horsepower, int acceleration, int suspension, int durability)
+        : base(brand, model, yearOfProduction, horsepower, acceleration, suspension, durability)
     {
         this.Stars = 0;
     }
@@ -12,14 +12,6 @@ public class ShowCar : Car
 
     public override string ToString()
     {
-        var sb = new StringBuilder();
-
-        sb.AppendLine(base.ToString());
-        if (this.Stars > 0)
-        {
-            sb.AppendLine($"{this.Stars} *");
-        }
-
-        return sb.ToString().Trim();
+        return $"{base.ToString()}{this.Stars} *";
     }
 }

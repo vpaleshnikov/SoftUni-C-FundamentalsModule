@@ -4,180 +4,116 @@ using System.Text;
 
 public class CarManager
 {
+    private readonly Dictionary<int, Car> cars;
+    private readonly Dictionary<int, Race> races;
+    private Garage garage;
+
     public CarManager()
     {
-        this.RegisteredCars = new Dictionary<int, Car>();
-        this.Races = new Dictionary<int, Race>();
-        this.Garage = new Garage();
+        this.cars = new Dictionary<int, Car>();
+        this.races = new Dictionary<int, Race>();
+        this.garage = new Garage();
     }
 
-    public Dictionary<int, Car> RegisteredCars { get; set; }
-
-    public Dictionary<int, Race> Races { get; set; }
-
-    public Garage Garage { get; set; }
-
-    public void Register(int carId, string type, string brand, string model, int yearOfProduction, int horsepower, int acceleration, int suspension, int durability)
+    public void Register(int id, string type, string brand, string model, int yearOfProduction, int horsepower,
+        int acceleration, int suspension, int durability)
     {
-        if (!this.RegisteredCars.ContainsKey(carId))
+        var car = CarFactory.CreateCar(type, brand, model, yearOfProduction, horsepower, acceleration, suspension,
+            durability);
+        cars[id] = car;
+    }
+
+    public string Check(int id)
+    {
+        return cars[id].ToString().Trim();
+    }
+
+    public void Open(int id, string type, int length, string route, int prizePool)
+    {
+        var race = RaceFactory.CreateRace(type, length, route, prizePool);
+        races[id] = race;
+    }
+
+    public void Open(int id, string type, int length, string route, int prizePool, int extraParam)
+    {
+        switch (type)
         {
-            if (type == "Performance")
-            {
-                this.RegisteredCars.Add(carId, new PerformanceCar(carId, brand, model, yearOfProduction, horsepower, acceleration, suspension, durability));
-            }
-            else if (type == "Show")
-            {
-                this.RegisteredCars.Add(carId, new ShowCar(carId, brand, model, yearOfProduction, horsepower, acceleration, suspension, durability));
-            }
-        }
-    }
-
-    public string Check(int carId)
-    {
-        var sb = new StringBuilder();
-        
-        sb.AppendLine(this.RegisteredCars[carId].ToString());
-        
-        return sb.ToString().Trim();
-    }
-
-    public void Open(int raceId, string type, int length, string route, int prizePool)
-    {
-        if (!this.Races.ContainsKey(raceId))
-        {
-            if (type == "Casual")
-            {
-                this.Races.Add(raceId, new CasualRace(length, route, prizePool));
-            }
-            else if (type == "Drag")
-            {
-                this.Races.Add(raceId, new DragRace(length, route, prizePool));
-            }
-            else if (type == "Drift")
-            {
-                this.Races.Add(raceId, new DriftRace(length, route, prizePool));
-            }
+            case "TimeLimit":
+                races[id] = new TimeLimitRace(length, route, prizePool, extraParam);
+                break;
+            case "Circuit":
+                races[id] = new CircuitRace(length, route, prizePool, extraParam);
+                break;
         }
     }
 
     public void Participate(int carId, int raceId)
     {
-        if (!this.Garage.ParkedCars.Any(pc => pc.Id == carId))
+        var car = cars[carId];
+        var race = races[raceId];
+
+        if (!garage.ParkedCars.ContainsKey(carId))
         {
-            this.Races[raceId].Participants.Add(this.RegisteredCars[carId]);
+            if ((race.GetType().Name == "TimeLimitRace" && race.Participants.Count == 0) || race.GetType().Name != "TimeLimitRace")
+            {
+                race.Participants[carId] = car;
+            }
         }
     }
 
-    public string Start(int raceId)
+    public string Start(int id)
     {
-        var sb = new StringBuilder();
+        var race = races[id];
+        var typeRace = race.GetType().Name;
 
-        if (this.Races.ContainsKey(raceId))
+        if (race.Participants.Count == 0)
         {
-            if (this.Races[raceId].Participants.Count > 0)
-            {
-                foreach (var participant in this.Races[raceId].Participants)
-                {
-                    if (this.Races[raceId].GetType().Name == "CasualRace")
-                    {
-                        participant.OverallPerformance = (participant.HorsePower / participant.Acceleration) + (participant.Suspension + participant.Durability);
-                    }
-                    else if (this.Races[raceId].GetType().Name == "DragRace")
-                    {
-                        participant.OverallPerformance = (participant.HorsePower / participant.Acceleration);
-                    }
-                    else
-                    {
-                        participant.OverallPerformance = (participant.Suspension + participant.Durability);
-                    }
-                }
-
-                var counter = 1;
-
-                sb.AppendLine($"{this.Races[raceId].Route} - {this.Races[raceId].Length}");
-
-                foreach (var item in this.Races.Values)
-                {
-                    foreach (var participant in item.Participants.OrderByDescending(p => p.OverallPerformance))
-                    {
-                        var moneyWon = 0;
-
-                        if (counter == 1)
-                        {
-                            moneyWon = (this.Races[raceId].PrizePool * 50) / 100;
-                            sb.AppendLine($"{counter}. {participant.Brand} {participant.Model} {participant.OverallPerformance}PP - ${moneyWon}");
-                        }
-                        else if (counter == 2)
-                        {
-                            moneyWon = (this.Races[raceId].PrizePool * 30) / 100;
-                            sb.AppendLine($"{counter}. {participant.Brand} {participant.Model} {participant.OverallPerformance}PP - ${moneyWon}");
-                        }
-                        else if (counter == 3)
-                        {
-                            moneyWon = (this.Races[raceId].PrizePool * 20) / 100;
-                            sb.AppendLine($"{counter}. {participant.Brand} {participant.Model} {participant.OverallPerformance}PP - ${moneyWon}");
-                        }
-                        counter++;
-                        if (counter > 3)
-                        {
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-            else
-            {
-                sb.AppendLine("Cannot start the race with zero participants.");
-            }
+            return $"Cannot start the race with zero participants.";
         }
-        return sb.ToString().Trim();
+
+        this.races.Remove(id);
+        return race.ToString();
     }
 
-    public void Park(int carId)
+    public void Park(int id)
     {
-        bool isInRace = false;
-        foreach (var item in this.Races.Values)
+        foreach (var race in races)
         {
-            if (item.Participants.Any(p => p.Id == carId))
+            if (race.Value.Participants.ContainsKey(id))
             {
-                isInRace = true;
+                return;
             }
         }
-        if (isInRace == false)
-        {
-            this.Garage.ParkedCars.Add(this.RegisteredCars[carId]);
-        }
+        var car = cars[id];
+        garage.ParkedCars.Add(id, car);
     }
 
-    public void Unpark(int carId)
+    public void Unpark(int id)
     {
-        if (this.Garage.ParkedCars.Count > 0 && this.Garage.ParkedCars.Any(c => c.Id == carId))
-        {
-            this.Garage.ParkedCars = this.Garage.ParkedCars.Where(c => c.Id != carId).ToList();
-        }
+        garage.ParkedCars.Remove(id);
     }
 
     public void Tune(int tuneIndex, string addOn)
     {
-        if (this.Garage.ParkedCars.Count > 0)
-        {
-            foreach (var car in this.Garage.ParkedCars)
-            {
-                car.HorsePower += tuneIndex;
-                car.Suspension += tuneIndex / 2;
+        var parkedCars = garage.ParkedCars;
 
-                if (car.GetType().Name == "PerformanceCar")
-                {
-                    var performanceCar = (PerformanceCar)car;
+        foreach (var parkedCar in parkedCars)
+        {
+            var carName = parkedCar.Value.GetType().Name;
+            parkedCar.Value.Horsepower += tuneIndex;
+            parkedCar.Value.Suspension += tuneIndex / 2;
+
+            switch (carName)
+            {
+                case "ShowCar":
+                    var currentCar = (ShowCar)parkedCar.Value;
+                    currentCar.Stars += tuneIndex;
+                    break;
+                case "PerformanceCar":
+                    var performanceCar = (PerformanceCar)parkedCar.Value;
                     performanceCar.AddOns.Add(addOn);
-                }
-                else
-                {
-                    var showCar = (ShowCar)car;
-                    showCar.Stars += tuneIndex;
-                }
+                    break;
             }
-        }        
+        }
     }
 }

@@ -10,110 +10,87 @@ namespace _03.NumberWars
 
         static void Main(string[] args)
         {
-            var firstAllCards = new Queue<string>
-                (Console.ReadLine().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries));
-            var secondAllCards = new Queue<string>
-                (Console.ReadLine().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries));
+            var firstLine = Console.ReadLine();
+            var deckOne = new Queue<Card>(firstLine.Split().Select(x => new Card(x)));
 
-            var turnCounter = 0;
-            var gameOver = false;
+            var secondLine = Console.ReadLine();
+            var deckTwo = new Queue<Card>(secondLine.Split().Select(x => new Card(x)));
 
-            while (turnCounter < MaxCounter && firstAllCards.Count > 0 && secondAllCards.Count > 0 && !gameOver)
+            int turn = 0;
+
+            while (turn < 1000000 && deckOne.Count > 0 && deckTwo.Count > 0)
             {
-                turnCounter++;
+                turn++;
+                var firstPCard = deckOne.Dequeue();
+                var secondPCard = deckTwo.Dequeue();
+                var table = new List<Card>() { firstPCard, secondPCard };
+                Queue<Card> currentWinDeck = null;
 
-                var firstCard = firstAllCards.Dequeue();
-                var secondCard = secondAllCards.Dequeue();
-                
-                if (GetNumber(firstCard) > GetNumber(secondCard))
+                if (firstPCard.Number > secondPCard.Number)
                 {
-                    firstAllCards.Enqueue(firstCard);
-                    firstAllCards.Enqueue(secondCard);
+                    currentWinDeck = deckOne;
                 }
-                else if (GetNumber(firstCard) < GetNumber(secondCard))
+                else if (firstPCard.Number < secondPCard.Number)
                 {
-                    secondAllCards.Enqueue(secondCard);
-                    secondAllCards.Enqueue(firstCard);
+                    currentWinDeck = deckTwo;
                 }
                 else
                 {
-                    var cardsHand = new List<string>
+                    while (currentWinDeck == null && deckOne.Count >= 3 && deckTwo.Count >= 3)
                     {
-                        firstCard,
-                        secondCard
-                    };
+                        int sumOne = deckOne.Take(3).Sum(x => x.Letter);
+                        int sumTwo = deckTwo.Take(3).Sum(x => x.Letter);
 
-                    while (!gameOver)
+                        for (int i = 0; i < 3; i++)
+                        {
+                            table.Add(deckOne.Dequeue());
+                            table.Add(deckTwo.Dequeue());
+                        }
+
+                        if (sumOne > sumTwo)
+                        {
+                            currentWinDeck = deckOne;
+                        }
+                        else if (sumOne < sumTwo)
+                        {
+                            currentWinDeck = deckTwo;
+                        }
+                    }
+                }
+
+                if (currentWinDeck != null)
+                {
+                    foreach (var card in table.OrderByDescending(x => x.Number).ThenByDescending(x => x.Letter))
                     {
-                        if (firstAllCards.Count >= 3 && secondAllCards.Count >= 3)
-                        {
-                            var firstSum = 0;
-                            var secondSum = 0;
-
-                            for (int counter = 0; counter < 3; counter++)
-                            {
-                                var firstHandCard = firstAllCards.Dequeue();
-                                var secondHandCard = secondAllCards.Dequeue();
-
-                                firstSum += GetChar(firstHandCard);
-                                secondSum += GetChar(secondHandCard);
-
-                                cardsHand.Add(firstHandCard);
-                                cardsHand.Add(secondHandCard);
-                            }
-
-                            if (firstSum > secondSum)
-                            {
-                                AddCardsToWinner(cardsHand, firstAllCards);
-                                break;
-                            }
-                            else if (firstSum < secondSum)
-                            {
-                                AddCardsToWinner(cardsHand, secondAllCards);
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            gameOver = true;
-                        }
+                        currentWinDeck.Enqueue(card);
                     }
                 }
             }
 
-            var result = string.Empty;
-            if (firstAllCards.Count == secondAllCards.Count)
+            if (deckOne.Count > deckTwo.Count)
             {
-                result = "Draw";
+                Console.WriteLine($"First player wins after {turn} turns");
             }
-            else if (firstAllCards.Count > secondAllCards.Count)
+            else if (deckOne.Count < deckTwo.Count)
             {
-                result = "First player wins";
+                Console.WriteLine($"Second player wins after {turn} turns");
             }
             else
             {
-                result = "Second player wins";
+                Console.WriteLine($"Draw after {turn} turns");
             }
-
-            Console.WriteLine($"{result} after {turnCounter} turns");
         }
 
-        private static void AddCardsToWinner(List<string> cardsHand, Queue<string> firstAllCards)
+        public class Card
         {
-            foreach (var card in cardsHand.OrderByDescending(a => GetNumber(a)).ThenByDescending(a => GetChar(a)))
+
+            public Card(string card)
             {
-                firstAllCards.Enqueue(card);
+                Number = int.Parse(card.Substring(0, card.Length - 1));
+                Letter = card[card.Length - 1] - 98;
             }
-        }
-
-        static int GetNumber(string card)
-        {
-            return int.Parse(card.Substring(0, card.Length - 1));
-        }
-
-        static int GetChar(string card)
-        {
-            return card[card.Length - 1];
+            public int Number { get; }
+            public int Letter { get; }
         }
     }
 }
